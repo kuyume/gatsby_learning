@@ -3,7 +3,7 @@ module.exports = {
     title: `ESSENTIALS`,
     description: `美味しい食材と食事を追求するサイト`,
     lang: 'ja',
-    siteUrl: 'http://160.16.220.252',
+    siteUrl: 'https://serene-lamport-d7b0fc.netlify.app',
     locale: `ja_JP`,
     fbappid: `XXXXXXXXXXXXX`
   },
