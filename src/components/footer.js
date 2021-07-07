@@ -1,8 +1,6 @@
 import React from "react"
-import { graphql, useStaticQuery } from "gatsby"
 import { OutboundLink } from "gatsby-plugin-google-analytics"
-import Img from "gatsby-image/withIEPolyfill"
-
+import { StaticImage } from "gatsby-plugin-image"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
   faTwitter,
@@ -11,17 +9,6 @@ import {
 } from "@fortawesome/free-brands-svg-icons"
 
 const Footer = () => {
-  const data = useStaticQuery(graphql`
-    query {
-      pattern: file(relativePath: { eq: "pattern.jpg" }) {
-        childImageSharp {
-          fluid(maxWidth: 1920, quality: 90) {
-            ...GatsbyImageSharpFluid_withWebp
-          }
-        }
-      }
-    }
-  `)
   
   return (
   <footer className="footer">
@@ -66,9 +53,11 @@ const Footer = () => {
       </ul>
     </div>
     <div className="back">
-      <Img
-        fluid={data.pattern.childImageSharp.fluid}
+      <StaticImage
+        src="../images/pattern.jpg"
         alt=""
+        placeholder="blurred"
+        layout="fullWidth"
         style={{ height: "100%" }}
       />
     </div>

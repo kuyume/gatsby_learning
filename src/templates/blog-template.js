@@ -1,7 +1,7 @@
 import React from "react"
 import { graphql } from "gatsby"
 import { OutboundLink } from "gatsby-plugin-google-analytics"
-import Img from "gatsby-image/withIEPolyfill"
+import { GatsbyImage } from "gatsby-plugin-image"
 import Layout from "../components/layout"
 
 import Seo from "../components/seo"
@@ -31,8 +31,8 @@ const Blog = ({ data, location, pageContext }) => (
             <article className="post" key={node.id}>
             <OutboundLink href={`/blog/post/${node.slug}/`}>
             <figure>
-              <Img
-                fluid={node.eyecatch.fluid}
+              <GatsbyImage
+                image={node.eyecatch.gatsbyImageData}
                 alt={node.eyecatch.description}
                 style={{ height: "100%" }}
               />
@@ -91,9 +91,7 @@ export const query = graphql`
           id
           slug
           eyecatch {
-            fluid(maxWidth: 500) {
-              ...GatsbyContentfulFluid_withWebp
-            }
+            gatsbyImageData
             description
           }
         }

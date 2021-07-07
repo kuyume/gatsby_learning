@@ -1,6 +1,6 @@
 import * as React from "react"
 import { graphql } from "gatsby"
-import Img from "gatsby-image/withIEPolyfill"
+import { StaticImage } from "gatsby-plugin-image"
 
 import Layout from "../components/layout"
 import Seo from "../components/seo"
@@ -10,6 +10,7 @@ import { faUtensils, faCheckSquare } from "@fortawesome/free-solid-svg-icons"
 
 // markup
 const IndexPage = ({ data, location }) => {
+
   return (
     <Layout
       currentPage="about"
@@ -18,14 +19,14 @@ const IndexPage = ({ data, location }) => {
         pagetitle="ESSENTIALSについて"
         pagedesc="食べ物についての情報を発信しているサイトです。"
         pagepath={location.pathname}
-        pageimg={data.about.childImageSharp.original.src}
-        pageimgw={data.about.childImageSharp.original.width}
-        pageimgh={data.about.childImageSharp.original.height}
+        pageimg={data.file.childImageSharp.original.src}
+        pageimgw={data.file.childImageSharp.original.width}
+        pageimgh={data.file.childImageSharp.original.height}
       />
       <div className="eyecatch">
         <figure>
-          <Img
-            fluid={data.about.childImageSharp.fluid}
+          <StaticImage
+            src="../images/about.jpg"
             alt="ブルーベリー＆ヨーグルト"
           />
         </figure>
@@ -67,17 +68,14 @@ const IndexPage = ({ data, location }) => {
   )
 }
 
-export const query = graphql`
+export const data = graphql`
   query {
-    about: file(relativePath: { eq: "about.jpg" }) {
+    file(name: {glob: "about"}) {
       childImageSharp {
-        fluid(maxWidth: 1600) {
-          ...GatsbyImageSharpFluid_withWebp
-        }
         original {
-          src
           width
           height
+          src
         }
       }
     }

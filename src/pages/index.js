@@ -1,8 +1,7 @@
 import * as React from "react"
 import { graphql } from "gatsby"
 import { OutboundLink } from "gatsby-plugin-google-analytics"
-import Img from "gatsby-image/withIEPolyfill"
-import Image from "../components/image"
+import { StaticImage, GatsbyImage } from "gatsby-plugin-image"
 
 import Layout from "../components/layout"
 
@@ -10,23 +9,18 @@ import Seo from "../components/seo"
 
 // markup
 const IndexPage = ({ data }) => {
+  console.log(data.allContentfulBlogPost.edges)
   return (
     <Layout
       currentPage="index"
     >
       <Seo />
       <section className="hero">
-        {/* <figure>
-          <Img
-            fluid={data.hero.childImageSharp.fluid}
-            alt=""
-            style={{ height: "100%" }}
-          />
-        </figure> */}
-        <Image
-          filename="hero.jpg"
+        <StaticImage
+          src="../images/hero.jpg"
           alt=""
-          style={{ height: "100%" }}
+          layout="fullWidth"
+          style={{ maxHeight: "750px" }}
         />
         <div className="catch">
           <h1>There is no love sincerer than<br /> the love of food.</h1>
@@ -56,10 +50,11 @@ const IndexPage = ({ data }) => {
 
           <div className="details">
             <div className="detail">
-              <Image
-                filename="fruit.jpg"
-                alt=""
-                style={{ height: "100%" }}
+              <StaticImage
+                src="../images/fruit.jpg"
+                alt="" 
+                layout="constrained"               
+                width={320}
               />
               <h3>フルーツ</h3>
               <p>FRUIT</p>
@@ -67,10 +62,11 @@ const IndexPage = ({ data }) => {
             </div>
 
             <div className="detail">
-              <Image
-                filename="grain.jpg"
+              <StaticImage
+                src="../images/grain.jpg"
                 alt=""
-                style={{ height: "100%" }}
+                layout="constrained"
+                width={320}
               />
               <h3>穀物</h3>
               <p>GRAIN</p>
@@ -78,10 +74,11 @@ const IndexPage = ({ data }) => {
             </div>
 
             <div className="detail">
-              <Image
-                filename="beverage.jpg"
+              <StaticImage
+                src="../images/beverage.jpg"
                 alt=""
-                style={{ height: "100%" }}
+                layout="constrained"
+                width={320}
               />
               <h3>飲み物</h3>
               <p>BEVERAGE</p>
@@ -93,10 +90,11 @@ const IndexPage = ({ data }) => {
 
       <section className="photo">
         <h2 className="sr-only">Photo</h2>
-          <Image
-            filename="berry.jpg"
+          <StaticImage
+            src="../images/berry.jpg"
             alt="赤く熟したベリー"
-            style={{ height: "100%" }}
+            layout="constrained"
+            style={{ width: "100%", maxHeight: "367px" }}
           />
       </section>
 
@@ -109,8 +107,8 @@ const IndexPage = ({ data }) => {
               <article className="post" key={node.id}>
               <OutboundLink href={`/blog/post/${node.slug}/`}>
               <figure>
-                <Img
-                  fluid={node.eyecatch.fluid}
+                <GatsbyImage
+                  image={node.eyecatch.gatsbyImageData}
                   alt={node.eyecatch.description}
                   style={{ height: "100%" }}
                 />
@@ -126,7 +124,7 @@ const IndexPage = ({ data }) => {
   )
 }
 
-export const query = graphql`
+export const data = graphql`
   query {
     allContentfulBlogPost (
       sort: { order: DESC, fields: publishDate }
@@ -139,10 +137,8 @@ export const query = graphql`
           id
           slug
           eyecatch {
-            fluid(maxWidth: 573) {
-              ...GatsbyContentfulFluid_withWebp
-            }
             description
+            gatsbyImageData
           }
         }
       }

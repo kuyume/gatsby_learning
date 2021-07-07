@@ -8,8 +8,9 @@ module.exports = {
     fbappid: `XXXXXXXXXXXXX`
   },
   plugins: [
-    `gatsby-transformer-sharp`,
+    `gatsby-plugin-image`,
     `gatsby-plugin-sharp`,
+    `gatsby-transformer-sharp`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -54,6 +55,12 @@ module.exports = {
       resolve: `gatsby-plugin-sitemap`,
       options: {
         createLinkInHead: true
+      }
+    },
+    {
+      resolve: "gatsby-plugin-netlify-cache",
+      options: {
+        cachePublic: true
       }
     }
   ],

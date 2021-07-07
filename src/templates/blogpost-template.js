@@ -1,7 +1,8 @@
 import React from "react"
+import ReactAudioPlayer from 'react-audio-player'
 import { graphql } from "gatsby"
 import { OutboundLink } from "gatsby-plugin-google-analytics"
-import Img from "gatsby-image/withIEPolyfill"
+import { GatsbyImage } from "gatsby-plugin-image"
 import Layout from "../components/layout"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -31,16 +32,26 @@ const options = {
         {children}
       </h2>
     ),  
-    [BLOCKS.EMBEDDED_ASSET]: node => (
-      <Img
-        fluid={node.data.target.fluid}
-        alt={
-          node.data.target.description
-           ? node.data.target.description
-           : node.data.target.title
-        }
-      />
-    )
+    [BLOCKS.EMBEDDED_ASSET]: node => {
+      if( node.data.target.gatsbyImageData ){
+        return (
+          <GatsbyImage
+            image={node.data.target.gatsbyImageData}
+            alt={
+              node.data.target.description
+              ? node.data.target.description
+              : node.data.target.title
+            }
+          />
+        )
+      } else if( node.data.target.file.url ) {
+        return (
+          <ReactAudioPlayer
+            src={node.data.target.file.url}
+          />
+        )
+      }        
+    }
   }
 }
 
@@ -90,8 +101,8 @@ const Blogpost = ({ data, pageContext, location }) => {
       />
       <div className="eyecatch">
         <figure>
-          <Img
-            fluid={data.contentfulBlogPost.eyecatch.fluid}
+          <GatsbyImage
+            image={data.contentfulBlogPost.eyecatch.gatsbyImageData}
             alt={data.contentfulBlogPost.eyecatch.description}
           />
         </figure>
@@ -153,9 +164,7 @@ export const query = graphql`
         id
       }
       eyecatch {
-        fluid(maxWidth: 1600) {
-          ...GatsbyContentfulFluid_withWebp
-        }
+        gatsbyImageData
         file {
           url
           details {
@@ -171,13 +180,15 @@ export const query = graphql`
         raw
         references {
           ... on ContentfulAsset {
-              contentful_id
+            contentful_id
             __typename
-            fluid(maxWidth: 785) {
-              ...GatsbyContentfulFluid_withWebp
-            }
+            gatsbyImageData
           }
           description
+          title
+          file {
+            url
+          }
         }
       }
     }
