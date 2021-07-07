@@ -56,12 +56,6 @@ module.exports = {
       options: {
         createLinkInHead: true
       }
-    },
-    {
-      resolve: "gatsby-plugin-netlify-cache",
-      options: {
-        cachePublic: true
-      }
     }
   ],
 };
