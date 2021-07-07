@@ -48,6 +48,8 @@ const options = {
         return (
           <ReactAudioPlayer
             src={node.data.target.file.url}
+            autoPlay
+            controls
           />
         )
       }        
