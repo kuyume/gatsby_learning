@@ -106,6 +106,8 @@ const Blogpost = ({ data, pageContext, location }) => {
           <GatsbyImage
             image={data.contentfulBlogPost.eyecatch.gatsbyImageData}
             alt={data.contentfulBlogPost.eyecatch.description}
+            layout="fullWidth"
+            style={{ width: "100%" }}
           />
         </figure>
       </div>
